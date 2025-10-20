@@ -1,0 +1,663 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище dbMasterFloorUPModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Заявки">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_партнера" Type="int" Nullable="false" />
+          <Property Name="id_сотрудника" Type="int" Nullable="false" />
+          <Property Name="дата_создания" Type="datetime" Nullable="false" />
+          <Property Name="статус" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="дата_предоплаты" Type="datetime" />
+          <Property Name="дата_полной_оплаты" Type="datetime" />
+          <Property Name="способ_доставки" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="История_продаж_партнеров">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_заявки" Type="int" Nullable="false" />
+          <Property Name="статус_заявки" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="дата_изменения_статуса" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Материалы">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="тип" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="название" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="id_поставщика" Type="int" Nullable="false" />
+          <Property Name="количество_в_упаковке" Type="int" Nullable="false" />
+          <Property Name="единица_измерения" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="стоимость" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="остаток_на_складе" Type="int" Nullable="false" />
+          <Property Name="минимальное_количество" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Материалы_для_продукции">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_материала" Type="int" Nullable="false" />
+          <Property Name="id_продукции" Type="int" Nullable="false" />
+          <Property Name="количество" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Партнеры">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="тип_партнера" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="название" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="юр_адрес" Type="text" Nullable="false" />
+          <Property Name="ИНН" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="ФИО_директора" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="рейтинг" Type="decimal" Precision="3" Scale="1" />
+        </EntityType>
+        <EntityType Name="Поставщики">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="тип_поставщика" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="название" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ИНН" Type="varchar" MaxLength="12" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Продукция">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="артикул" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="тип" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="название" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="описание" Type="text" />
+          <Property Name="мин_цена_партнера" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="время_изготовления" Type="int" Nullable="false" />
+          <Property Name="себестоимость" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="номер_цеха" Type="int" Nullable="false" />
+          <Property Name="кол_во_рабочих" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Сотрудники">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ФИО" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="дата_рождения" Type="date" Nullable="false" />
+          <Property Name="паспортные_данные" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="банковские_реквизиты" Type="text" Nullable="false" />
+          <Property Name="наличие_семьи" Type="bit" Nullable="false" />
+          <Property Name="состояние_здоровья" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="роль" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Элементы_заявок">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_заявки" Type="int" Nullable="false" />
+          <Property Name="id_продукции" Type="int" Nullable="false" />
+          <Property Name="количество" Type="int" Nullable="false" />
+          <Property Name="цена" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="дата_производства" Type="date" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Заявки__id_партн__4222D4EF">
+          <End Role="Партнеры" Type="Self.Партнеры" Multiplicity="1" />
+          <End Role="Заявки" Type="Self.Заявки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Партнеры">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Заявки">
+              <PropertyRef Name="id_партнера" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Заявки__id_сотру__4316F928">
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="1" />
+          <End Role="Заявки" Type="Self.Заявки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сотрудники">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Заявки">
+              <PropertyRef Name="id_сотрудника" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__История_п__id_за__5DCAEF64">
+          <End Role="Заявки" Type="Self.Заявки" Multiplicity="1" />
+          <End Role="История_продаж_партнеров" Type="Self.История_продаж_партнеров" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Заявки">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="История_продаж_партнеров">
+              <PropertyRef Name="id_заявки" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Материалы__id_ма__5441852A">
+          <End Role="Материалы" Type="Self.Материалы" Multiplicity="1" />
+          <End Role="Материалы_для_продукции" Type="Self.Материалы_для_продукции" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Материалы">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Материалы_для_продукции">
+              <PropertyRef Name="id_материала" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Материалы__id_по__5070F446">
+          <End Role="Поставщики" Type="Self.Поставщики" Multiplicity="1" />
+          <End Role="Материалы" Type="Self.Материалы" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Поставщики">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Материалы">
+              <PropertyRef Name="id_поставщика" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Материалы__id_пр__5535A963">
+          <End Role="Продукция" Type="Self.Продукция" Multiplicity="1" />
+          <End Role="Материалы_для_продукции" Type="Self.Материалы_для_продукции" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Продукция">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Материалы_для_продукции">
+              <PropertyRef Name="id_продукции" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Элементы___id_за__59FA5E80">
+          <End Role="Заявки" Type="Self.Заявки" Multiplicity="1" />
+          <End Role="Элементы_заявок" Type="Self.Элементы_заявок" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Заявки">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Элементы_заявок">
+              <PropertyRef Name="id_заявки" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Элементы___id_пр__5AEE82B9">
+          <End Role="Продукция" Type="Self.Продукция" Multiplicity="1" />
+          <End Role="Элементы_заявок" Type="Self.Элементы_заявок" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Продукция">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Элементы_заявок">
+              <PropertyRef Name="id_продукции" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище dbMasterFloorUPModelContainer">
+          <EntitySet Name="Заявки" EntityType="Self.Заявки" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="История_продаж_партнеров" EntityType="Self.История_продаж_партнеров" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Материалы" EntityType="Self.Материалы" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Материалы_для_продукции" EntityType="Self.Материалы_для_продукции" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Партнеры" EntityType="Self.Партнеры" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Поставщики" EntityType="Self.Поставщики" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Продукция" EntityType="Self.Продукция" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Сотрудники" EntityType="Self.Сотрудники" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Элементы_заявок" EntityType="Self.Элементы_заявок" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Заявки__id_партн__4222D4EF" Association="Self.FK__Заявки__id_партн__4222D4EF">
+            <End Role="Партнеры" EntitySet="Партнеры" />
+            <End Role="Заявки" EntitySet="Заявки" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Заявки__id_сотру__4316F928" Association="Self.FK__Заявки__id_сотру__4316F928">
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+            <End Role="Заявки" EntitySet="Заявки" />
+          </AssociationSet>
+          <AssociationSet Name="FK__История_п__id_за__5DCAEF64" Association="Self.FK__История_п__id_за__5DCAEF64">
+            <End Role="Заявки" EntitySet="Заявки" />
+            <End Role="История_продаж_партнеров" EntitySet="История_продаж_партнеров" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Материалы__id_ма__5441852A" Association="Self.FK__Материалы__id_ма__5441852A">
+            <End Role="Материалы" EntitySet="Материалы" />
+            <End Role="Материалы_для_продукции" EntitySet="Материалы_для_продукции" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Материалы__id_по__5070F446" Association="Self.FK__Материалы__id_по__5070F446">
+            <End Role="Поставщики" EntitySet="Поставщики" />
+            <End Role="Материалы" EntitySet="Материалы" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Материалы__id_пр__5535A963" Association="Self.FK__Материалы__id_пр__5535A963">
+            <End Role="Продукция" EntitySet="Продукция" />
+            <End Role="Материалы_для_продукции" EntitySet="Материалы_для_продукции" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Элементы___id_за__59FA5E80" Association="Self.FK__Элементы___id_за__59FA5E80">
+            <End Role="Заявки" EntitySet="Заявки" />
+            <End Role="Элементы_заявок" EntitySet="Элементы_заявок" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Элементы___id_пр__5AEE82B9" Association="Self.FK__Элементы___id_пр__5AEE82B9">
+            <End Role="Продукция" EntitySet="Продукция" />
+            <End Role="Элементы_заявок" EntitySet="Элементы_заявок" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbMasterFloorUPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Заявки">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_партнера" Type="Int32" Nullable="false" />
+          <Property Name="id_сотрудника" Type="Int32" Nullable="false" />
+          <Property Name="дата_создания" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="статус" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="дата_предоплаты" Type="DateTime" Precision="3" />
+          <Property Name="дата_полной_оплаты" Type="DateTime" Precision="3" />
+          <Property Name="способ_доставки" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Партнеры" Relationship="Self.FK__Заявки__id_партн__4222D4EF" FromRole="Заявки" ToRole="Партнеры" />
+          <NavigationProperty Name="Сотрудники" Relationship="Self.FK__Заявки__id_сотру__4316F928" FromRole="Заявки" ToRole="Сотрудники" />
+          <NavigationProperty Name="История_продаж_партнеров" Relationship="Self.FK__История_п__id_за__5DCAEF64" FromRole="Заявки" ToRole="История_продаж_партнеров" />
+          <NavigationProperty Name="Элементы_заявок" Relationship="Self.FK__Элементы___id_за__59FA5E80" FromRole="Заявки" ToRole="Элементы_заявок" />
+        </EntityType>
+        <EntityType Name="История_продаж_партнеров">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_заявки" Type="Int32" Nullable="false" />
+          <Property Name="статус_заявки" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="дата_изменения_статуса" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Заявки" Relationship="Self.FK__История_п__id_за__5DCAEF64" FromRole="История_продаж_партнеров" ToRole="Заявки" />
+        </EntityType>
+        <EntityType Name="Материалы">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="тип" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="название" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_поставщика" Type="Int32" Nullable="false" />
+          <Property Name="количество_в_упаковке" Type="Int32" Nullable="false" />
+          <Property Name="единица_измерения" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="стоимость" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="остаток_на_складе" Type="Int32" Nullable="false" />
+          <Property Name="минимальное_количество" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Материалы_для_продукции" Relationship="Self.FK__Материалы__id_ма__5441852A" FromRole="Материалы" ToRole="Материалы_для_продукции" />
+          <NavigationProperty Name="Поставщики" Relationship="Self.FK__Материалы__id_по__5070F446" FromRole="Материалы" ToRole="Поставщики" />
+        </EntityType>
+        <EntityType Name="Материалы_для_продукции">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_материала" Type="Int32" Nullable="false" />
+          <Property Name="id_продукции" Type="Int32" Nullable="false" />
+          <Property Name="количество" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Материалы" Relationship="Self.FK__Материалы__id_ма__5441852A" FromRole="Материалы_для_продукции" ToRole="Материалы" />
+          <NavigationProperty Name="Продукция" Relationship="Self.FK__Материалы__id_пр__5535A963" FromRole="Материалы_для_продукции" ToRole="Продукция" />
+        </EntityType>
+        <EntityType Name="Партнеры">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="тип_партнера" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="название" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="юр_адрес" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ИНН" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ФИО_директора" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="рейтинг" Type="Decimal" Precision="3" Scale="1" />
+          <NavigationProperty Name="Заявки" Relationship="Self.FK__Заявки__id_партн__4222D4EF" FromRole="Партнеры" ToRole="Заявки" />
+        </EntityType>
+        <EntityType Name="Поставщики">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="тип_поставщика" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="название" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ИНН" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Материалы" Relationship="Self.FK__Материалы__id_по__5070F446" FromRole="Поставщики" ToRole="Материалы" />
+        </EntityType>
+        <EntityType Name="Продукция">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="артикул" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="тип" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="название" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="описание" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="мин_цена_партнера" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="время_изготовления" Type="Int32" Nullable="false" />
+          <Property Name="себестоимость" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="номер_цеха" Type="Int32" Nullable="false" />
+          <Property Name="кол_во_рабочих" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Материалы_для_продукции" Relationship="Self.FK__Материалы__id_пр__5535A963" FromRole="Продукция" ToRole="Материалы_для_продукции" />
+          <NavigationProperty Name="Элементы_заявок" Relationship="Self.FK__Элементы___id_пр__5AEE82B9" FromRole="Продукция" ToRole="Элементы_заявок" />
+        </EntityType>
+        <EntityType Name="Сотрудники">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ФИО" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="дата_рождения" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="паспортные_данные" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="банковские_реквизиты" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="наличие_семьи" Type="Boolean" Nullable="false" />
+          <Property Name="состояние_здоровья" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="роль" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Заявки" Relationship="Self.FK__Заявки__id_сотру__4316F928" FromRole="Сотрудники" ToRole="Заявки" />
+        </EntityType>
+        <EntityType Name="Элементы_заявок">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_заявки" Type="Int32" Nullable="false" />
+          <Property Name="id_продукции" Type="Int32" Nullable="false" />
+          <Property Name="количество" Type="Int32" Nullable="false" />
+          <Property Name="цена" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="дата_производства" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Заявки" Relationship="Self.FK__Элементы___id_за__59FA5E80" FromRole="Элементы_заявок" ToRole="Заявки" />
+          <NavigationProperty Name="Продукция" Relationship="Self.FK__Элементы___id_пр__5AEE82B9" FromRole="Элементы_заявок" ToRole="Продукция" />
+        </EntityType>
+        <Association Name="FK__Заявки__id_партн__4222D4EF">
+          <End Role="Партнеры" Type="Self.Партнеры" Multiplicity="1" />
+          <End Role="Заявки" Type="Self.Заявки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Партнеры">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Заявки">
+              <PropertyRef Name="id_партнера" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Заявки__id_сотру__4316F928">
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="1" />
+          <End Role="Заявки" Type="Self.Заявки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сотрудники">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Заявки">
+              <PropertyRef Name="id_сотрудника" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__История_п__id_за__5DCAEF64">
+          <End Role="Заявки" Type="Self.Заявки" Multiplicity="1" />
+          <End Role="История_продаж_партнеров" Type="Self.История_продаж_партнеров" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Заявки">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="История_продаж_партнеров">
+              <PropertyRef Name="id_заявки" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Элементы___id_за__59FA5E80">
+          <End Role="Заявки" Type="Self.Заявки" Multiplicity="1" />
+          <End Role="Элементы_заявок" Type="Self.Элементы_заявок" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Заявки">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Элементы_заявок">
+              <PropertyRef Name="id_заявки" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Материалы__id_ма__5441852A">
+          <End Role="Материалы" Type="Self.Материалы" Multiplicity="1" />
+          <End Role="Материалы_для_продукции" Type="Self.Материалы_для_продукции" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Материалы">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Материалы_для_продукции">
+              <PropertyRef Name="id_материала" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Материалы__id_по__5070F446">
+          <End Role="Поставщики" Type="Self.Поставщики" Multiplicity="1" />
+          <End Role="Материалы" Type="Self.Материалы" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Поставщики">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Материалы">
+              <PropertyRef Name="id_поставщика" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Материалы__id_пр__5535A963">
+          <End Role="Продукция" Type="Self.Продукция" Multiplicity="1" />
+          <End Role="Материалы_для_продукции" Type="Self.Материалы_для_продукции" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Продукция">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Материалы_для_продукции">
+              <PropertyRef Name="id_продукции" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Элементы___id_пр__5AEE82B9">
+          <End Role="Продукция" Type="Self.Продукция" Multiplicity="1" />
+          <End Role="Элементы_заявок" Type="Self.Элементы_заявок" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Продукция">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Элементы_заявок">
+              <PropertyRef Name="id_продукции" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbMasterFloorUPEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Заявки" EntityType="Self.Заявки" />
+          <EntitySet Name="История_продаж_партнеров" EntityType="Self.История_продаж_партнеров" />
+          <EntitySet Name="Материалы" EntityType="Self.Материалы" />
+          <EntitySet Name="Материалы_для_продукции" EntityType="Self.Материалы_для_продукции" />
+          <EntitySet Name="Партнеры" EntityType="Self.Партнеры" />
+          <EntitySet Name="Поставщики" EntityType="Self.Поставщики" />
+          <EntitySet Name="Продукция" EntityType="Self.Продукция" />
+          <EntitySet Name="Сотрудники" EntityType="Self.Сотрудники" />
+          <EntitySet Name="Элементы_заявок" EntityType="Self.Элементы_заявок" />
+          <AssociationSet Name="FK__Заявки__id_партн__4222D4EF" Association="Self.FK__Заявки__id_партн__4222D4EF">
+            <End Role="Партнеры" EntitySet="Партнеры" />
+            <End Role="Заявки" EntitySet="Заявки" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Заявки__id_сотру__4316F928" Association="Self.FK__Заявки__id_сотру__4316F928">
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+            <End Role="Заявки" EntitySet="Заявки" />
+          </AssociationSet>
+          <AssociationSet Name="FK__История_п__id_за__5DCAEF64" Association="Self.FK__История_п__id_за__5DCAEF64">
+            <End Role="Заявки" EntitySet="Заявки" />
+            <End Role="История_продаж_партнеров" EntitySet="История_продаж_партнеров" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Элементы___id_за__59FA5E80" Association="Self.FK__Элементы___id_за__59FA5E80">
+            <End Role="Заявки" EntitySet="Заявки" />
+            <End Role="Элементы_заявок" EntitySet="Элементы_заявок" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Материалы__id_ма__5441852A" Association="Self.FK__Материалы__id_ма__5441852A">
+            <End Role="Материалы" EntitySet="Материалы" />
+            <End Role="Материалы_для_продукции" EntitySet="Материалы_для_продукции" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Материалы__id_по__5070F446" Association="Self.FK__Материалы__id_по__5070F446">
+            <End Role="Поставщики" EntitySet="Поставщики" />
+            <End Role="Материалы" EntitySet="Материалы" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Материалы__id_пр__5535A963" Association="Self.FK__Материалы__id_пр__5535A963">
+            <End Role="Продукция" EntitySet="Продукция" />
+            <End Role="Материалы_для_продукции" EntitySet="Материалы_для_продукции" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Элементы___id_пр__5AEE82B9" Association="Self.FK__Элементы___id_пр__5AEE82B9">
+            <End Role="Продукция" EntitySet="Продукция" />
+            <End Role="Элементы_заявок" EntitySet="Элементы_заявок" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище dbMasterFloorUPModelContainer" CdmEntityContainer="dbMasterFloorUPEntities1">
+          <EntitySetMapping Name="Заявки">
+            <EntityTypeMapping TypeName="dbMasterFloorUPModel.Заявки">
+              <MappingFragment StoreEntitySet="Заявки">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="id_партнера" ColumnName="id_партнера" />
+                <ScalarProperty Name="id_сотрудника" ColumnName="id_сотрудника" />
+                <ScalarProperty Name="дата_создания" ColumnName="дата_создания" />
+                <ScalarProperty Name="статус" ColumnName="статус" />
+                <ScalarProperty Name="дата_предоплаты" ColumnName="дата_предоплаты" />
+                <ScalarProperty Name="дата_полной_оплаты" ColumnName="дата_полной_оплаты" />
+                <ScalarProperty Name="способ_доставки" ColumnName="способ_доставки" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="История_продаж_партнеров">
+            <EntityTypeMapping TypeName="dbMasterFloorUPModel.История_продаж_партнеров">
+              <MappingFragment StoreEntitySet="История_продаж_партнеров">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="id_заявки" ColumnName="id_заявки" />
+                <ScalarProperty Name="статус_заявки" ColumnName="статус_заявки" />
+                <ScalarProperty Name="дата_изменения_статуса" ColumnName="дата_изменения_статуса" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Материалы">
+            <EntityTypeMapping TypeName="dbMasterFloorUPModel.Материалы">
+              <MappingFragment StoreEntitySet="Материалы">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="тип" ColumnName="тип" />
+                <ScalarProperty Name="название" ColumnName="название" />
+                <ScalarProperty Name="id_поставщика" ColumnName="id_поставщика" />
+                <ScalarProperty Name="количество_в_упаковке" ColumnName="количество_в_упаковке" />
+                <ScalarProperty Name="единица_измерения" ColumnName="единица_измерения" />
+                <ScalarProperty Name="стоимость" ColumnName="стоимость" />
+                <ScalarProperty Name="остаток_на_складе" ColumnName="остаток_на_складе" />
+                <ScalarProperty Name="минимальное_количество" ColumnName="минимальное_количество" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Материалы_для_продукции">
+            <EntityTypeMapping TypeName="dbMasterFloorUPModel.Материалы_для_продукции">
+              <MappingFragment StoreEntitySet="Материалы_для_продукции">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="id_материала" ColumnName="id_материала" />
+                <ScalarProperty Name="id_продукции" ColumnName="id_продукции" />
+                <ScalarProperty Name="количество" ColumnName="количество" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Партнеры">
+            <EntityTypeMapping TypeName="dbMasterFloorUPModel.Партнеры">
+              <MappingFragment StoreEntitySet="Партнеры">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="тип_партнера" ColumnName="тип_партнера" />
+                <ScalarProperty Name="название" ColumnName="название" />
+                <ScalarProperty Name="юр_адрес" ColumnName="юр_адрес" />
+                <ScalarProperty Name="ИНН" ColumnName="ИНН" />
+                <ScalarProperty Name="ФИО_директора" ColumnName="ФИО_директора" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="рейтинг" ColumnName="рейтинг" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Поставщики">
+            <EntityTypeMapping TypeName="dbMasterFloorUPModel.Поставщики">
+              <MappingFragment StoreEntitySet="Поставщики">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="тип_поставщика" ColumnName="тип_поставщика" />
+                <ScalarProperty Name="название" ColumnName="название" />
+                <ScalarProperty Name="ИНН" ColumnName="ИНН" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Продукция">
+            <EntityTypeMapping TypeName="dbMasterFloorUPModel.Продукция">
+              <MappingFragment StoreEntitySet="Продукция">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="артикул" ColumnName="артикул" />
+                <ScalarProperty Name="тип" ColumnName="тип" />
+                <ScalarProperty Name="название" ColumnName="название" />
+                <ScalarProperty Name="описание" ColumnName="описание" />
+                <ScalarProperty Name="мин_цена_партнера" ColumnName="мин_цена_партнера" />
+                <ScalarProperty Name="время_изготовления" ColumnName="время_изготовления" />
+                <ScalarProperty Name="себестоимость" ColumnName="себестоимость" />
+                <ScalarProperty Name="номер_цеха" ColumnName="номер_цеха" />
+                <ScalarProperty Name="кол_во_рабочих" ColumnName="кол_во_рабочих" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Сотрудники">
+            <EntityTypeMapping TypeName="dbMasterFloorUPModel.Сотрудники">
+              <MappingFragment StoreEntitySet="Сотрудники">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ФИО" ColumnName="ФИО" />
+                <ScalarProperty Name="дата_рождения" ColumnName="дата_рождения" />
+                <ScalarProperty Name="паспортные_данные" ColumnName="паспортные_данные" />
+                <ScalarProperty Name="банковские_реквизиты" ColumnName="банковские_реквизиты" />
+                <ScalarProperty Name="наличие_семьи" ColumnName="наличие_семьи" />
+                <ScalarProperty Name="состояние_здоровья" ColumnName="состояние_здоровья" />
+                <ScalarProperty Name="роль" ColumnName="роль" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Элементы_заявок">
+            <EntityTypeMapping TypeName="dbMasterFloorUPModel.Элементы_заявок">
+              <MappingFragment StoreEntitySet="Элементы_заявок">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="id_заявки" ColumnName="id_заявки" />
+                <ScalarProperty Name="id_продукции" ColumnName="id_продукции" />
+                <ScalarProperty Name="количество" ColumnName="количество" />
+                <ScalarProperty Name="цена" ColumnName="цена" />
+                <ScalarProperty Name="дата_производства" ColumnName="дата_производства" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
