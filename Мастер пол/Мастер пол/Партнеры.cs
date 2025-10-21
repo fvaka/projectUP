@@ -27,6 +27,7 @@ namespace Мастер_пол
         public string ФИО_директора { get; set; }
         public string email { get; set; }
         public Nullable<decimal> рейтинг { get; set; }
+        public string телефон { get; set; }
     
         public virtual ICollection<Заявки> Заявки { get; set; }
     }

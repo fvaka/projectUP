@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Мастер_пол
 {
     /// <summary>
-    /// Логика взаимодействия для UserControl1.xaml
+    /// Логика взаимодействия для PartnerControl.xaml
     /// </summary>
-    public partial class UserControl1 : UserControl
+    public partial class PartnerControl : UserControl
     {
-        public UserControl1()
+        public PartnerControl()
         {
             InitializeComponent();
         }

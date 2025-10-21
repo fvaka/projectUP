@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -25,33 +26,48 @@ namespace Мастер_пол
         public MainWindow()
         {
             InitializeComponent();
+            LoadPartners();
 
         }
         public void LoadPartners()
         {
             try
             {
-                grid1.Children.Clear();
+                stackPanel1.Children.Clear();
                 var partners = dBContext.партнерыs.ToList();
                 foreach (var partner in partners)
                 {
-                    var commonVal = dBContext.элементы_Заявокs.Where(r => r.ID == partner.ID).Sum(r => r.количество);
+                    try
+                    {
 
-                    double percent = commonVal >= 300000 ? 15 : commonVal >= 50000 ? 10 : commonVal >= 10000 ? 5 : 0;
+                        var commonVal = dBContext.элементы_Заявокs.Where(r => r.ID == partner.ID).Sum(r => r.количество);
 
-                    var partnerType = dBContext.партнерыs.FirstOrDefault(t => t.ID == partner.ID)?.тип_партнера ?? "Неизвестный тип";
+                        double percent = commonVal >= 300000 ? 15 : commonVal >= 50000 ? 10 : commonVal >= 10000 ? 5 : 0;
 
-                    UserControl1 partnerControl = new UserControl1();
-                    partnerControl.DataSet(
-                        partner.тип_партнера,
-                        partner.название,
-                        partner.ФИО_директора,
-                        partner.телефон,
+                        var partnerType = dBContext.партнерыs.FirstOrDefault(t => t.ID == partner.ID)?.тип_партнера ?? "Неизвестный тип";
 
-                        
-                        
-                        )
+                        PartnerControl pc = new PartnerControl();
+                        pc.DataSet(
+                            partner.тип_партнера,
+                            partner.название,
+                            partner.ФИО_директора,
+                            partner.телефон,
+                            partner.рейтинг.ToString(),
+                            percent
+                            );
+                        stackPanel1.Children.Add( pc );
+                    }
+                    catch 
+                    {
+
+                        System.Windows.Forms.MessageBox.Show($"Ошибка при загрузке партнера {partner}");
+                    }
                 }
+            }
+            catch
+            {
+                System.Windows.Forms.MessageBox.Show("Произошла ошибка при загрузке данных. Попробуйте позже.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
         }
     }

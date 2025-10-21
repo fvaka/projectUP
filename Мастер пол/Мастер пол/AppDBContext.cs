@@ -15,11 +15,11 @@ namespace Мастер_пол
         public DbSet<Заявки> заявкиs { get; set; }
         public DbSet<История_продаж_партнеров> история_Продажs { get; set; }
         public DbSet<Сотрудники> сотрудникиs { get; set; }
-        public DbSet<Продукция> продукцияs{ get; set; }
-        public DbSet<Материалы> материалыs{ get; set; }
-        public DbSet<Элементы_заявок> элементы_Заявокs{ get; set; }
-        public DbSet<Материалы_для_продукции> Материалы_Для_Продукцииs{ get; set; }
-        public DbSet<Поставщики> поставщикиs{ get; set; }
+        public DbSet<Продукция> продукцияs { get; set; }
+        public DbSet<Материалы> материалыs { get; set; }
+        public DbSet<Элементы_заявок> элементы_Заявокs { get; set; }
+        public DbSet<Материалы_для_продукции> Материалы_Для_Продукцииs { get; set; }
+        public DbSet<Поставщики> поставщикиs { get; set; }
 
     }
 }

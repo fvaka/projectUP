@@ -62,6 +62,7 @@
           <Property Name="ФИО_директора" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="рейтинг" Type="decimal" Precision="3" Scale="1" />
+          <Property Name="телефон" Type="varchar" MaxLength="11" />
         </EntityType>
         <EntityType Name="Поставщики">
           <Key>
@@ -321,6 +322,7 @@
           <Property Name="ФИО_директора" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="рейтинг" Type="Decimal" Precision="3" Scale="1" />
+          <Property Name="телефон" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Заявки" Relationship="Self.FK__Заявки__id_партн__4222D4EF" FromRole="Партнеры" ToRole="Заявки" />
         </EntityType>
         <EntityType Name="Поставщики">
@@ -473,7 +475,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="dbMasterFloorUPEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="dbMasterFloorUPEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Заявки" EntityType="Self.Заявки" />
           <EntitySet Name="История_продаж_партнеров" EntityType="Self.История_продаж_партнеров" />
           <EntitySet Name="Материалы" EntityType="Self.Материалы" />
@@ -521,7 +523,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище dbMasterFloorUPModelContainer" CdmEntityContainer="dbMasterFloorUPEntities1">
+        <EntityContainerMapping StorageEntityContainer="Хранилище dbMasterFloorUPModelContainer" CdmEntityContainer="dbMasterFloorUPEntities">
           <EntitySetMapping Name="Заявки">
             <EntityTypeMapping TypeName="dbMasterFloorUPModel.Заявки">
               <MappingFragment StoreEntitySet="Заявки">
@@ -582,6 +584,7 @@
                 <ScalarProperty Name="ФИО_директора" ColumnName="ФИО_директора" />
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="рейтинг" ColumnName="рейтинг" />
+                <ScalarProperty Name="телефон" ColumnName="телефон" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
