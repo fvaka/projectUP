@@ -23,52 +23,98 @@ namespace Мастер_пол
     public partial class MainWindow : Window
     {
         private AppDBContext dBContext = new AppDBContext();
+        private Login _login;
+        public MainWindow(Login login)
+        {
+            InitializeComponent();
+            LoadPartners();
+            _login = login;
+        }
         public MainWindow()
         {
             InitializeComponent();
             LoadPartners();
-
         }
         public void LoadPartners()
         {
             try
             {
-                stackPanel1.Children.Clear();
-                var partners = dBContext.партнерыs.ToList();
-                foreach (var partner in partners)
+                using (var db = new AppDBContext())
                 {
-                    try
+                    stackPanel1.Children.Clear();
+                    var partners = db.партнерыs.ToList();
+                    foreach (var partner in partners)
                     {
+                        try
+                        {
+                            var requestItems = db.элементы_Заявокs.Where(r => r.ID == partner.ID);
+                            double commonVal = requestItems.Any() ? requestItems.Sum(r => r.количество) : 0;
 
-                        var commonVal = dBContext.элементы_Заявокs.Where(r => r.ID == partner.ID).Sum(r => r.количество);
+                            double percent = commonVal >= 300000 ? 15 : commonVal >= 50000 ? 10 : commonVal >= 10000 ? 5 : 0;
 
-                        double percent = commonVal >= 300000 ? 15 : commonVal >= 50000 ? 10 : commonVal >= 10000 ? 5 : 0;
-
-                        var partnerType = dBContext.партнерыs.FirstOrDefault(t => t.ID == partner.ID)?.тип_партнера ?? "Неизвестный тип";
-
-                        PartnerControl pc = new PartnerControl();
-                        pc.DataSet(
-                            partner.тип_партнера,
-                            partner.название,
-                            partner.ФИО_директора,
-                            partner.телефон,
-                            partner.рейтинг.ToString(),
-                            percent
+                            string partnerType = partner.тип_партнера ?? "Неизвестный тип";
+                            PartnerControl pc = new PartnerControl(this);
+                            pc.DataSet(
+                                partnerType,
+                                partner.название,
+                                partner.ФИО_директора,
+                                partner.телефон,
+                                partner.рейтинг.ToString(),
+                                percent,
+                                partner.ID
                             );
-                        stackPanel1.Children.Add( pc );
-                    }
-                    catch 
-                    {
-
-                        System.Windows.Forms.MessageBox.Show($"Ошибка при загрузке партнера {partner}");
+                            stackPanel1.Children.Add(pc);
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Windows.Forms.MessageBox.Show($"Ошибка при загрузке партнера {partner}: {ex.Message}");
+                        }
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("Произошла ошибка при загрузке данных. Попробуйте позже.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                System.Windows.Forms.MessageBox.Show($"Произошла ошибка при загрузке данных: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var updateForm = new addPartner(this);
+                updateForm.Closed += (s, args) => this.LoadPartners();
+                updateForm.Show();
+                Window parentWindow = Window.GetWindow(this);
+                parentWindow?.Hide();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show($"Ошибка при открытии формы: {ex.Message}", "Ошибка");
+            }
+        }
+
+        private void history_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var updateForm = new history(this);
+                updateForm.Closed += (s, args) => this.LoadPartners();
+                updateForm.Show();
+                Window parentWindow = Window.GetWindow(this);
+                parentWindow?.Hide();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show($"Ошибка при открытии формы: {ex.Message}", "Ошибка");
+            }
+        }
+
+        private void back_Click(object sender, RoutedEventArgs e)
+        {
+            _login.Show();
+            this.Close();
+
         }
     }
 

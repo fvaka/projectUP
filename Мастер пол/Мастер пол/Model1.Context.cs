@@ -13,10 +13,10 @@ namespace Мастер_пол
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class dbMasterFloorUPEntities : DbContext
+    public partial class dbMasterFloorUPEntities3 : DbContext
     {
-        public dbMasterFloorUPEntities()
-            : base("name=dbMasterFloorUPEntities")
+        public dbMasterFloorUPEntities3()
+            : base("name=dbMasterFloorUPEntities3")
         {
         }
     

@@ -9,7 +9,7 @@ namespace Мастер_пол
 {
     public partial class AppDBContext : DbContext
     {
-        public AppDBContext() : base("name=dbMasterFloorUPEntities") { }
+        public AppDBContext() : base("name=dbMasterFloorUPEntities3") { }
 
         public DbSet<Партнеры> партнерыs { get; set; }
         public DbSet<Заявки> заявкиs { get; set; }

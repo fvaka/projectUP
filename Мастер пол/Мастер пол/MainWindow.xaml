@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Мастер_пол"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Главная" Height="450" Width="600" Icon="/parquet.png">
     <Grid x:Name="grid1">
-        <StackPanel x:Name="stackPanel1" Width="800" ScrollViewer.HorizontalScrollBarVisibility="Visible" CanVerticallyScroll="True" ScrollViewer.CanContentScroll="True"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="144,0,0,0" >
+            <StackPanel x:Name="stackPanel1" Width="438" />
+        </ScrollViewer>
+        <Button Content="Добавить" HorizontalAlignment="Left" Margin="25,176,0,0" VerticalAlignment="Top" Height="41" Width="87" Background="#FF67BB81" Click="Button_Click"/>
+        <Button Content="История" HorizontalAlignment="Left" Margin="25,240,0,0" VerticalAlignment="Top" Height="41" Width="87" Background="#FFB6D9C1" Click="history_Click"/>
+        <Button Content="Назад" HorizontalAlignment="Left" Margin="25,300,0,0" VerticalAlignment="Top" Height="41" Width="87" Background="#FFD4EEDC" Click="back_Click"/>
     </Grid>
 </Window>
